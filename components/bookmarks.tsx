@@ -67,7 +67,7 @@ const Bookmark = ({
         <div className="flex justify-center items-center w-full h-[80vh] ">
           <BouncingLoader />
         </div>
-      ) : (
+      ) : newBookmark.length > 0 ? (
         <>
           <div className="flex justify-between">
             <h1 className="text-green-900 text-xl font-semibold">
@@ -167,6 +167,12 @@ const Bookmark = ({
               </div>
             ))}
           </div>
+        </>
+      ) : (
+        <>
+          <p className="flex justify-center items-center w-full h-[80vh] text-xl font-medium">
+            No bookmarks found.
+          </p>
         </>
       )}
     </div>

@@ -9,9 +9,10 @@ type HomeProps = {
   menu: boolean;
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
   tags: string[] 
+  handleTabChange: (tab: string) => void;
 }
 
-const Home = ({menu, setMenu, tags}: HomeProps) => {
+const Home = ({menu, setMenu, tags, handleTabChange}: HomeProps) => {
 
     const toggleMenu = () => setMenu(!menu);
     const [searchBookmark, setSearchBookmark] = useState('');
@@ -48,7 +49,7 @@ const Home = ({menu, setMenu, tags}: HomeProps) => {
 
           <div className="flex gap-6 max-md:gap-0 items-center">
             <div>
-              <button className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 ">
+              <button className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 " onClick={() => handleTabChange('add-bookmark')}> 
                 <span>
                   <IoAdd className="text-white w-5 h-5" />
                 </span>
