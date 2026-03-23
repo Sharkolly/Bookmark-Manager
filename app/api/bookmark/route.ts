@@ -7,7 +7,7 @@ export async function GET() {
   return NextResponse.json(bookmarks_data);
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { title, description, datePosted, views, link, category } =
     await req.json();
   const new_bookmark: {
@@ -58,7 +58,7 @@ export async function PATCH(req: Request) {
 }
 
 
-export async function DELETE (req:Request, res: Response) {
+export async function DELETE (req:Request) {
   const {id} = await req.json();
 
   const deleteBookamrk = bookmarks_data.bookmarks.filter((bookmark) => bookmark.id !== id);
