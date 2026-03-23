@@ -1,23 +1,34 @@
-'use client'
+"use client";
 import { IoAdd } from "react-icons/io5";
 import Bookmark from "./bookmarks";
 import { FaBookmark } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
-import {ChangeEvent, useState} from 'react'
+import { ChangeEvent, SetStateAction, useState } from "react";
+import { AllBookMarkType } from "@/types/app.types";
 
 type HomeProps = {
   menu: boolean;
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  tags: string[] 
+  tags: string[];
   handleTabChange: (tab: string) => void;
-}
+  allBookmarks: AllBookMarkType[] | [];
+  setAllBookmarks: React.Dispatch<SetStateAction<[] | AllBookMarkType[]>>;
+};
 
-const Home = ({menu, setMenu, tags, handleTabChange}: HomeProps) => {
+const Home = ({
+  menu,
+  setMenu,
+  tags,
+  handleTabChange,
+  allBookmarks,
+  setAllBookmarks,
+}: HomeProps) => {
+  
+  const toggleMenu = () => setMenu(!menu);
+  const [searchBookmark, setSearchBookmark] = useState("");
 
-    const toggleMenu = () => setMenu(!menu);
-    const [searchBookmark, setSearchBookmark] = useState('');
-
-    const searchInput = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => setSearchBookmark(e.target.value);
+  const searchInput = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) =>
+    setSearchBookmark(e.target.value);
 
   return (
     <div className="w-full  ml-[25%] max-xl:ml-[30%] max-lg:ml-[35%] max-md:ml-0">
@@ -29,8 +40,8 @@ const Home = ({menu, setMenu, tags, handleTabChange}: HomeProps) => {
           <p className="font-bold text-xl text-black">Bookmark Manager</p>
         </div>
         <div>
-          <div onClick={toggleMenu} className='cursor-pointer'>
-            <RxHamburgerMenu className='text-2xl' />
+          <div onClick={toggleMenu} className="cursor-pointer">
+            <RxHamburgerMenu className="text-2xl" />
           </div>
         </div>
       </div>
@@ -49,7 +60,10 @@ const Home = ({menu, setMenu, tags, handleTabChange}: HomeProps) => {
 
           <div className="flex gap-6 max-md:gap-0 items-center">
             <div>
-              <button className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 " onClick={() => handleTabChange('add-bookmark')}> 
+              <button
+                className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 "
+                onClick={() => handleTabChange("add-bookmark")}
+              >
                 <span>
                   <IoAdd className="text-white w-5 h-5" />
                 </span>
@@ -64,7 +78,12 @@ const Home = ({menu, setMenu, tags, handleTabChange}: HomeProps) => {
         </div>
       </div>
 
-      <Bookmark searchBookmark={searchBookmark} tags={tags} />
+      <Bookmark
+        searchBookmark={searchBookmark}
+        tags={tags}
+        allBookmarks={allBookmarks}
+        setAllBookmarks={setAllBookmarks}
+      />
     </div>
   );
 };
