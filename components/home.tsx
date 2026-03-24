@@ -23,7 +23,6 @@ const Home = ({
   allBookmarks,
   setAllBookmarks,
 }: HomeProps) => {
-  
   const toggleMenu = () => setMenu(!menu);
   const [searchBookmark, setSearchBookmark] = useState("");
 
@@ -51,7 +50,7 @@ const Home = ({
           <div>
             <input
               type="search"
-              className="border-2 border-gray-300 px-3 py-1.5 rounded-lg w-[150%] outline-none max-md:w-full "
+              className="border-2 border-gray-300 px-3 py-1.5 rounded-lg w-[150%] outline-none max-lg:w-full "
               name=""
               onChange={(e) => searchInput(e)}
               placeholder="Search by title..."
@@ -59,9 +58,9 @@ const Home = ({
           </div>
 
           <div className="flex gap-6 max-md:gap-0 items-center">
-            <div>
+            <div className="cursor-pointer">
               <button
-                className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 "
+                className="flex gap-2 bg-green-900 px-4 py-2.5 rounded-lg items-center justify-center max-md:px-2 max-md:py-2 cursor-pointer "
                 onClick={() => handleTabChange("add-bookmark")}
               >
                 <span>
@@ -71,9 +70,9 @@ const Home = ({
               </button>
             </div>
 
-            <div>
-              <div className="border-green-800 border-2 w-12 h-12 rounded-full max-md:hidden"></div>
-            </div>
+            {/* <div> */}
+              {/* <div className="border-green-800 border-2 w-12 h-12 rounded-full max-md:hidden"></div> */}
+            {/* </div> */}
           </div>
         </div>
       </div>

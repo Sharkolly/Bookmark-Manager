@@ -51,7 +51,10 @@ const AddBookmark = ({
       const post_bookmarks = async () => {
         try {
           const { data } = await axios.post("/api/bookmark", newBookmark);
-          localStorage.setItem("bookmarks", JSON.stringify(data.bookmark.bookmarks));
+          localStorage.setItem(
+            "bookmarks",
+            JSON.stringify(data.bookmark.bookmarks),
+          );
           setAllBookmarks(data.bookmark.bookmarks);
         } catch (error) {
           console.error("Error adding bookmark:", error);
@@ -63,8 +66,6 @@ const AddBookmark = ({
       router.push("/");
     }
   };
-
-
 
   return (
     <div className="fixed z-200 bg-gray-600/80 top-0 left-0 bottom-0 right-0 ">

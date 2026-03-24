@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bookmarks from "@/json/bookmark.json";
 
-const bookmarks_data = bookmarks;
+let bookmarks_data = bookmarks;
 
 export async function GET() {
   return NextResponse.json(bookmarks_data);
@@ -34,8 +34,10 @@ export async function POST(req: Request) {
     pinned: false,
   };
 
-  bookmarks_data.bookmarks.push(new_bookmark);
-  console.log(bookmarks_data);
+  bookmarks_data = {
+    bookmarks: [...bookmarks_data.bookmarks, new_bookmark],
+  };
+
   return NextResponse.json({
     message: "new bookmark added",
     status: "successful",
@@ -50,23 +52,30 @@ export async function PATCH(req: Request) {
     bookmark.id === id ? { ...bookmark, pinned: !bookmark.pinned } : bookmark,
   );
 
+  bookmarks_data = {
+    bookmarks: bookmarkToUpdate,
+  };
+
   return NextResponse.json({
     message: "bookmark updated",
     status: "successful",
-    bookmark: bookmarkToUpdate,
+    bookmark: bookmarks_data,
   });
 }
 
+export async function DELETE(req: Request) {
+  const { id } = await req.json();
 
-export async function DELETE (req:Request) {
-  const {id} = await req.json();
-
-  const deleteBookamrk = bookmarks_data.bookmarks.filter((bookmark) => bookmark.id !== id);
+  const deleteBookmark = bookmarks_data.bookmarks.filter(
+    (bookmark) => bookmark.id !== id,
+  );
+  bookmarks_data = {
+    bookmarks: deleteBookmark,
+  };
 
   return NextResponse.json({
     message: "bookmark deleted",
     status: "successful",
-    bookmark: deleteBookamrk,
+    bookmark: bookmarks_data,
   });
-
 }

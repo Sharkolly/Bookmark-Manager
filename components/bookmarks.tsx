@@ -27,10 +27,18 @@ const Bookmark = ({
   const [toggleOptions, setToggleOptions] = useState<number | undefined>(
     undefined,
   );
+  const [toggleOptionsClick, setToggleOptionsClick] = useState(false);
 
   const toggleOptionsBtn = (id: number) => {
     const toggledBookmark = allBookmarks.find((bookmark) => bookmark.id === id);
+    if (toggleOptions !== toggledBookmark?.id && toggleOptionsClick) {
+      setToggleOptions(toggledBookmark?.id);
+      setToggleOptionsClick(true);
+      return;
+    }
+
     setToggleOptions(toggledBookmark?.id);
+    setToggleOptionsClick(!toggleOptionsClick);
   };
 
   const togglePinBookmarks = (id: number) => {
@@ -63,6 +71,7 @@ const Bookmark = ({
             "bookmarks",
             JSON.stringify(response.data.bookmarks),
           );
+          console.log(response.data.bookmarks);
           setAllBookmarks(response.data.bookmarks);
         } catch (error) {
           console.error("Error fetching tags:", error);
@@ -119,12 +128,12 @@ const Bookmark = ({
             <h1 className="text-green-900 text-xl font-semibold">
               All bookmarks
             </h1>
-            <button className="flex gap-1 items-center bg-white py-2 px-4 rounded-md border">
+            {/* <button className="flex gap-1 items-center bg-white py-2 px-4 rounded-md border">
               <span>
                 <LuArrowDownUp />
               </span>
               <span>Sort by</span>
-            </button>
+            </button> */}
           </div>
 
           <div className="grid grid-cols-3 max-xl:grid-cols-2 max-lg:grid-cols-1 gap-5 mt-5 w-full">
@@ -163,7 +172,7 @@ const Bookmark = ({
                         className="text-gray-700"
                         onClick={() => toggleOptionsBtn(bookmark.id)}
                       />
-                      {toggleOptions === bookmark?.id && (
+                      {toggleOptions === bookmark?.id && toggleOptionsClick && (
                         <div className="absolute bg-slate-100 top-12  -left-20 -right-5 rounded-md z-10 shadow-md">
                           <div className="flex flex-col">
                             <Link

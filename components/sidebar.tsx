@@ -64,7 +64,6 @@ const Sidebar = ({ menu, tags, setTags }: Props) => {
           );
         setAllTags(sortedTags);
       } catch (error) {
-        console.error("Error fetching tags:", error);
         throw error;
       } finally {
         setLoading(false);
