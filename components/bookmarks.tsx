@@ -70,8 +70,7 @@ const Bookmark = ({
           localStorage.setItem(
             "bookmarks",
             JSON.stringify(response.data.bookmarks),
-          );
-          console.log(response.data.bookmarks);
+          );          
           setAllBookmarks(response.data.bookmarks);
         } catch (error) {
           console.error("Error fetching tags:", error);

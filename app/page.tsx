@@ -12,14 +12,11 @@ const Page = () => {
   const activeTab = searchParams.get("tab") || "";
 
   const [allBookmarks, setAllBookmarks] = useState(() => {
-  if (typeof window === "undefined") return [];
+    if (typeof window === "undefined") return [];
 
-  const stored = localStorage.getItem("bookmarks");
-  return stored ? JSON.parse(stored) : [];
-});
-
-console.log(allBookmarks);
-
+    const stored = localStorage.getItem("bookmarks");
+    return stored ? JSON.parse(stored) : [];
+  });
   const handleTabChange = (tab: string) => {
     router.push(`/?tab=${tab}`);
   };
@@ -27,7 +24,6 @@ console.log(allBookmarks);
   const [menu, setMenu] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
- 
   return (
     <div className="flex justify-between">
       <Sidebar menu={menu} tags={tags} setTags={setTags} />

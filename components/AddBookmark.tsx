@@ -29,7 +29,6 @@ const AddBookmark = ({
 
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
 
     if (
       data.link &&
