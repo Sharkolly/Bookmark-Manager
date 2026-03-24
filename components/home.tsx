@@ -13,6 +13,8 @@ type HomeProps = {
   handleTabChange: (tab: string) => void;
   allBookmarks: AllBookMarkType[] | [];
   setAllBookmarks: React.Dispatch<SetStateAction<[] | AllBookMarkType[]>>;
+  pinnedBookmarks: AllBookMarkType[];
+  setPinnedBookmarks: React.Dispatch<React.SetStateAction<AllBookMarkType[]>>;
 };
 
 const Home = ({
@@ -22,6 +24,8 @@ const Home = ({
   handleTabChange,
   allBookmarks,
   setAllBookmarks,
+  pinnedBookmarks,
+  setPinnedBookmarks,
 }: HomeProps) => {
   const toggleMenu = () => setMenu(!menu);
   const [searchBookmark, setSearchBookmark] = useState("");
@@ -71,7 +75,7 @@ const Home = ({
             </div>
 
             {/* <div> */}
-              {/* <div className="border-green-800 border-2 w-12 h-12 rounded-full max-md:hidden"></div> */}
+            {/* <div className="border-green-800 border-2 w-12 h-12 rounded-full max-md:hidden"></div> */}
             {/* </div> */}
           </div>
         </div>

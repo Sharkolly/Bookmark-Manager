@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
-import { PiArchiveDuotone } from "react-icons/pi";
+// import { PiArchiveDuotone } from "react-icons/pi";
 import { RiHome6Line } from "react-icons/ri";
 import axios from "axios";
 import BouncingLoader from "./BouncingLoader";
+import { TbPinnedFilled } from "react-icons/tb";
 
 type allTagsType = {
   id: number;
@@ -29,9 +30,19 @@ type Props = {
   menu: boolean;
   tags: string[];
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
+  setAllBookmarks: React.Dispatch<React.SetStateAction<AllBookMarkType[] | []>>;
+  allBookmarks: AllBookMarkType[] | [];
+  handleTabChange: (tab: string) => void;
 };
 
-const Sidebar = ({ menu, tags, setTags }: Props) => {
+const Sidebar = ({
+  menu,
+  tags,
+  setTags,
+  setAllBookmarks,
+  allBookmarks,
+  handleTabChange,
+}: Props) => {
   const [allTags, setAllTags] = useState<allTagsType[] | []>([]);
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +52,24 @@ const Sidebar = ({ menu, tags, setTags }: Props) => {
     } else {
       setTags(tags.filter((tag) => tag !== t));
     }
+  };
+
+  const [linkName, setLinkName] = useState("home");
+
+  const pinnedBookmarksHandler = () => {
+    const pinned = allBookmarks.filter(
+      (bookmark: AllBookMarkType) => bookmark.pinned,
+    );
+    setAllBookmarks(pinned);
+    setLinkName("pinned");
+    handleTabChange("pinned");
+  };
+
+  const homeBookmarksHandler = () => {
+    const bookmarks = localStorage.getItem("bookmarks");
+    setAllBookmarks(bookmarks ? JSON.parse(bookmarks) : []);
+    setLinkName("home");
+    handleTabChange("home");
   };
 
   useEffect(() => {
@@ -76,7 +105,7 @@ const Sidebar = ({ menu, tags, setTags }: Props) => {
     <div
       className={`h-screen w-[25%] max-xl:w-[30%] max-lg:w-[35%] max-md:w-[60%] fixed top-0 left-0 bg-gray-100/50 max-md:bg-white ${menu == false && "max-md:hidden"}`}
     >
-      <div className=" h-screen overflow-scroll py-5 px-7">
+      <div className=" h-screen overflow-y-scroll py-5 px-7">
         <div className="mt-2 mb-7 flex items-center gap-2">
           <div className="bg-green-800 w-8 h-8 rounded-md flex items-center justify-center">
             <FaBookmark className="w-4 h-4 text-white " />
@@ -85,17 +114,23 @@ const Sidebar = ({ menu, tags, setTags }: Props) => {
         </div>
 
         <div className="my-5 space-y-3">
-          <div className="flex gap-2 items-center text-black bg-gray-500/20 py-2 px-3 rounded-md font-medium">
+          <div
+            className={`flex gap-2 items-center py-2 px-3 rounded-md font-medium cursor-pointer ${linkName == "home" ? "bg-gray-500/20 text-black" : ""}`}
+            onClick={homeBookmarksHandler}
+          >
             <span>
               <RiHome6Line className="w-5 h-5 " />
             </span>
             <h1>Home</h1>
           </div>
-          <div className="flex gap-2 items-center py-2 px-3 rounded-md">
+          <div
+            className={`flex gap-2 items-center py-2 px-3 rounded-md cursor-pointer ${linkName == "pinned" ? "bg-gray-500/20 text-black" : ""}`}
+            onClick={pinnedBookmarksHandler}
+          >
             <span>
-              <PiArchiveDuotone className="w-5 h-5 " />
+              <TbPinnedFilled className="w-5 h-5 " />
             </span>
-            <h1>Archived</h1>
+            <h1>Pinned</h1>
           </div>
 
           <div className="mt-6">

@@ -1,7 +1,7 @@
 "use client";
 import Sidebar from "@/components/sidebar";
 import Home from "@/components/home";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import AddBookmark from "@/components/AddBookmark";
 import { AllBookMarkType } from "@/types/app.types";
@@ -9,7 +9,7 @@ import { AllBookMarkType } from "@/types/app.types";
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || "";
+  const activeTab = searchParams.get("tab") || "home";
 
   const [allBookmarks, setAllBookmarks] = useState(() => {
     if (typeof window === "undefined") return [];
@@ -23,18 +23,44 @@ const Page = () => {
 
   const [menu, setMenu] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+  const [pinnedBookmarks, setPinnedBookmarks] = useState<
+    AllBookMarkType[] | []
+  >([]);
 
   return (
     <div className="flex justify-between">
-      <Sidebar menu={menu} tags={tags} setTags={setTags} />
-      <Home
+      <Sidebar
+        menu={menu}
+        tags={tags}
+        setTags={setTags}
+        allBookmarks={allBookmarks}
+        handleTabChange={handleTabChange}
+        setAllBookmarks={setAllBookmarks}
+        />
+      {activeTab === "home" && (
+        <Home
         menu={menu}
         setMenu={setMenu}
         tags={tags}
         handleTabChange={handleTabChange}
         setAllBookmarks={setAllBookmarks}
         allBookmarks={allBookmarks}
-      />
+        pinnedBookmarks={pinnedBookmarks}
+        setPinnedBookmarks={setPinnedBookmarks}
+        />
+      )}
+      {activeTab === "pinned" && (
+        <Home
+        menu={menu}
+        setMenu={setMenu}
+        tags={tags}
+        handleTabChange={handleTabChange}
+        setAllBookmarks={setAllBookmarks}
+        allBookmarks={allBookmarks}
+        pinnedBookmarks={pinnedBookmarks}
+        setPinnedBookmarks={setPinnedBookmarks}
+        />
+      )}
 
       {activeTab === "add-bookmark" && (
         <AddBookmark
